@@ -9,18 +9,34 @@ import {
   Search,
   Plus,
   Layers,
-  Clock,
-  Building,
-  Tag,
   X,
   FileCheck,
-  ChevronRight,
-  ExternalLink,
+  Lock,
+  ShieldAlert,
+  ShieldCheck,
+  User as UserIcon,
+  BadgeCheck,
 } from 'lucide-react';
 import { getDocuments, uploadDocument, indexDocument, getDocumentDetail } from '../services/api';
-import { DocumentSummary } from '../types';
+import { DocumentSummary, User } from '../types';
 
-export const DocumentsPage: React.FC = () => {
+interface DocumentsPageProps {
+  currentUser: User | null;
+}
+
+const ROLE_COLORS: Record<string, string> = {
+  ADMIN: 'bg-violet-50 text-violet-800 border-violet-300',
+  CLINICAL: 'bg-sky-50 text-sky-800 border-sky-200',
+  OPERATIONS: 'bg-amber-50 text-amber-800 border-amber-300',
+};
+
+const ROLE_ICONS: Record<string, React.ReactNode> = {
+  ADMIN: <ShieldCheck className="w-3 h-3" />,
+  CLINICAL: <BadgeCheck className="w-3 h-3" />,
+  OPERATIONS: <UserIcon className="w-3 h-3" />,
+};
+
+export const DocumentsPage: React.FC<DocumentsPageProps> = ({ currentUser }) => {
   const [documents, setDocuments] = useState<DocumentSummary[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -29,6 +45,7 @@ export const DocumentsPage: React.FC = () => {
 
   // Upload modal state
   const [isUploadOpen, setIsUploadOpen] = useState(false);
+  const [showAccessDenied, setShowAccessDenied] = useState(false);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [title, setTitle] = useState('');
   const [version, setVersion] = useState('1.0');
@@ -48,6 +65,9 @@ export const DocumentsPage: React.FC = () => {
   const [selectedDocDetails, setSelectedDocDetails] = useState<any | null>(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
 
+  const isAdmin = currentUser?.role?.toUpperCase() === 'ADMIN';
+  const userRole = currentUser?.role?.toUpperCase() || 'GUEST';
+
   const fetchDocs = async () => {
     setLoading(true);
     setError(null);
@@ -65,10 +85,23 @@ export const DocumentsPage: React.FC = () => {
     fetchDocs();
   }, []);
 
+  const handleUploadButtonClick = () => {
+    if (!isAdmin) {
+      setShowAccessDenied(true);
+      return;
+    }
+    setIsUploadOpen(true);
+  };
+
   const handleUploadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!uploadFile) {
       setError('Please select a file to upload');
+      return;
+    }
+    if (!isAdmin) {
+      setError('Access Denied: Only ADMIN users can upload documents.');
+      setIsUploadOpen(false);
       return;
     }
 
@@ -88,9 +121,10 @@ export const DocumentsPage: React.FC = () => {
       formData.append('allowed_roles', allowedRoles);
 
       const res = await uploadDocument(formData);
-      setUploadSuccess(`Document "${res.title}" parsed & uploaded (${res.chunks_created} chunks generated)`);
+      setUploadSuccess(
+        `Document "${res.title}" parsed & uploaded by ${currentUser?.name} (${res.chunks_created} chunks generated)`
+      );
       setIsUploadOpen(false);
-      // Reset form
       setUploadFile(null);
       setTitle('');
       fetchDocs();
@@ -155,6 +189,20 @@ export const DocumentsPage: React.FC = () => {
         </div>
 
         <div className="flex items-center space-x-3">
+          {/* Current User Role Badge */}
+          {currentUser && (
+            <div
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold ${
+                ROLE_COLORS[userRole] || 'bg-slate-50 text-slate-700 border-slate-200'
+              }`}
+            >
+              {ROLE_ICONS[userRole] || <UserIcon className="w-3 h-3" />}
+              <span>{currentUser.name.split(',')[0].split(' ').slice(0, 2).join(' ')}</span>
+              <span className="opacity-50">·</span>
+              <span className="tracking-wide">{userRole}</span>
+            </div>
+          )}
+
           <button
             onClick={fetchDocs}
             disabled={loading}
@@ -163,15 +211,49 @@ export const DocumentsPage: React.FC = () => {
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
-          <button
-            onClick={() => setIsUploadOpen(true)}
-            className="flex items-center space-x-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-sm font-semibold shadow-md shadow-sky-600/20 transition"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Upload Document</span>
-          </button>
+
+          {/* Upload Button — locked for non-ADMIN */}
+          <div className="relative group">
+            <button
+              onClick={handleUploadButtonClick}
+              className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-semibold shadow-md transition ${
+                isAdmin
+                  ? 'bg-sky-600 hover:bg-sky-700 text-white shadow-sky-600/20'
+                  : 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
+              }`}
+            >
+              {isAdmin ? <Plus className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
+              <span>Upload Document</span>
+            </button>
+            {/* Tooltip for non-admin */}
+            {!isAdmin && (
+              <div className="absolute bottom-full right-0 mb-2 w-52 bg-slate-800 text-white text-xs rounded-xl px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl z-10">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <Lock className="w-3 h-3 text-rose-400" />
+                  <span className="font-semibold text-rose-300">ADMIN Only</span>
+                </div>
+                Only users with <strong>ADMIN</strong> role can upload documents. Your role is{' '}
+                <strong className="text-amber-300">{userRole}</strong>.
+                <div className="absolute bottom-[-5px] right-4 w-2.5 h-2.5 bg-slate-800 rotate-45" />
+              </div>
+            )}
+          </div>
         </div>
       </div>
+
+      {/* Role-based access info banner for non-admins */}
+      {!isAdmin && currentUser && (
+        <div className="bg-amber-50 border border-amber-200 text-amber-800 p-3 rounded-xl flex items-start space-x-3 text-sm">
+          <ShieldAlert className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+          <div>
+            <p className="font-semibold">Read-only access — <span className="capitalize">{userRole}</span> role</p>
+            <p className="text-xs text-amber-700 mt-0.5">
+              You can view and search documents, but uploading requires <strong>ADMIN</strong> privileges. Contact
+              your administrator to request elevated access.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Notifications */}
       {uploadSuccess && (
@@ -225,7 +307,7 @@ export const DocumentsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Documents Table / Grid */}
+      {/* Documents Table */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         {loading && documents.length === 0 ? (
           <div className="p-12 text-center text-slate-400">
@@ -290,11 +372,13 @@ export const DocumentsPage: React.FC = () => {
                       )}
                     </td>
                     <td className="py-3.5 px-4">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase border ${
-                        (doc.allowed_roles || 'ADMIN,CLINICAL').includes('OPERATIONS')
-                          ? 'bg-amber-50 text-amber-800 border-amber-300'
-                          : 'bg-sky-50 text-sky-800 border-sky-200'
-                      }`}>
+                      <span
+                        className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase border ${
+                          (doc.allowed_roles || 'ADMIN,CLINICAL').includes('OPERATIONS')
+                            ? 'bg-amber-50 text-amber-800 border-amber-300'
+                            : 'bg-sky-50 text-sky-800 border-sky-200'
+                        }`}
+                      >
                         {doc.allowed_roles || 'ADMIN,CLINICAL'}
                       </span>
                     </td>
@@ -347,14 +431,78 @@ export const DocumentsPage: React.FC = () => {
         )}
       </div>
 
-      {/* UPLOAD MODAL */}
-      {isUploadOpen && (
+      {/* ACCESS DENIED MODAL */}
+      {showAccessDenied && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full border border-rose-100 overflow-hidden">
+            <div className="px-6 py-5 bg-gradient-to-br from-rose-50 to-pink-50 border-b border-rose-100 text-center">
+              <div className="mx-auto w-14 h-14 rounded-full bg-rose-100 flex items-center justify-center mb-3">
+                <ShieldAlert className="w-7 h-7 text-rose-500" />
+              </div>
+              <h3 className="text-lg font-bold text-rose-900">Access Denied</h3>
+              <p className="text-sm text-rose-700 mt-1">Insufficient permissions to upload documents</p>
+            </div>
+            <div className="px-6 py-5 space-y-4">
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm space-y-2.5">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-slate-500 font-medium">Your Account</span>
+                  <span className="font-semibold text-slate-800">{currentUser?.name}</span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-slate-500 font-medium">Your Role</span>
+                  <span
+                    className={`font-bold px-2 py-0.5 rounded text-[10px] border uppercase ${
+                      ROLE_COLORS[userRole] || 'bg-slate-100 text-slate-700 border-slate-200'
+                    }`}
+                  >
+                    {userRole}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-slate-500 font-medium">Required Role</span>
+                  <span className="font-bold px-2 py-0.5 rounded text-[10px] border uppercase bg-violet-50 text-violet-800 border-violet-300">
+                    ADMIN
+                  </span>
+                </div>
+              </div>
+
+              <p className="text-xs text-slate-500 text-center leading-relaxed">
+                Document upload is restricted to <strong>ADMIN</strong> users only to ensure
+                clinical document integrity and compliance. Please contact your system administrator
+                to request elevated access.
+              </p>
+
+              <button
+                onClick={() => setShowAccessDenied(false)}
+                className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm rounded-xl transition"
+              >
+                Understood
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* UPLOAD MODAL — only accessible to ADMIN */}
+      {isUploadOpen && isAdmin && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
           <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full border border-slate-200 overflow-hidden">
-            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
-              <div className="flex items-center space-x-2">
+            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-sky-50 to-slate-50">
+              <div className="flex items-center space-x-3">
                 <Upload className="w-5 h-5 text-sky-600" />
-                <h3 className="font-bold text-slate-800 text-base">Upload Healthcare Document</h3>
+                <div>
+                  <h3 className="font-bold text-slate-800 text-base">Upload Healthcare Document</h3>
+                  <p className="text-[11px] text-slate-500 flex items-center gap-1 mt-0.5">
+                    <ShieldCheck className="w-3 h-3 text-violet-500" />
+                    Uploading as{' '}
+                    <strong className="text-violet-700">
+                      {currentUser?.name?.split(',')[0]}
+                    </strong>
+                    <span className="bg-violet-100 text-violet-700 px-1.5 py-0.5 rounded text-[10px] font-bold border border-violet-200 ml-0.5">
+                      ADMIN
+                    </span>
+                  </p>
+                </div>
               </div>
               <button
                 onClick={() => setIsUploadOpen(false)}
@@ -468,7 +616,7 @@ export const DocumentsPage: React.FC = () => {
                   className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white font-medium"
                 >
                   <option value="ADMIN,CLINICAL">ADMIN, CLINICAL (Standard Clinical Guideline/Protocol)</option>
-                  <option value="ADMIN,OPERATIONS">ADMIN, OPERATIONS (Facility, Engineering & Supply Chain)</option>
+                  <option value="ADMIN,OPERATIONS">ADMIN, OPERATIONS (Facility, Engineering &amp; Supply Chain)</option>
                   <option value="ADMIN,CLINICAL,OPERATIONS">ADMIN, CLINICAL, OPERATIONS (Hospital-wide Access)</option>
                   <option value="ADMIN">ADMIN ONLY (Restricted Governance)</option>
                 </select>
@@ -502,12 +650,12 @@ export const DocumentsPage: React.FC = () => {
                   {uploading ? (
                     <>
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      <span>Parsing & Chunking...</span>
+                      <span>Parsing &amp; Chunking...</span>
                     </>
                   ) : (
                     <>
                       <Upload className="w-4 h-4" />
-                      <span>Upload & Ingest</span>
+                      <span>Upload &amp; Ingest</span>
                     </>
                   )}
                 </button>

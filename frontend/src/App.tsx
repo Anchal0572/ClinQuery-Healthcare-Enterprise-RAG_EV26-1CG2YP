@@ -84,7 +84,7 @@ export function App() {
           <AskPage currentUser={currentUser} initialQuestion={activeQuestion} />
         )}
 
-        {currentTab === 'documents' && <DocumentsPage />}
+        {currentTab === 'documents' && <DocumentsPage currentUser={currentUser} />}
 
         {currentTab === 'audit' && <AuditPage onRerunQuery={handleRerun} />}
 
