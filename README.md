@@ -10,6 +10,31 @@
 
 ---
 
+## 🆕 Recent Changes
+
+### ✅ feat: RBAC Authentication for Document Upload (Frontend)
+**Commit:** `bc76dcc` · **Branch:** `main`
+
+Added **Role-Based Access Control (RBAC)** on the Document Upload feature in the frontend UI:
+
+| Feature | Details |
+|---|---|
+| **Role Badge** | Logged-in user's name + role shown in Documents page header (color-coded: violet = ADMIN, sky = CLINICAL, amber = OPERATIONS) |
+| **Locked Upload Button** | 🔒 Gray button with Lock icon for non-ADMIN users; active blue button for ADMIN only |
+| **Hover Tooltip** | Non-admin users see tooltip: *"ADMIN Only — your role is CLINICAL"* |
+| **Read-only Banner** | Amber warning banner shown to CLINICAL/OPERATIONS users explaining restricted access |
+| **Access Denied Modal** | Clicking upload as non-admin shows a modal comparing `Your Role` vs `Required: ADMIN` |
+| **Uploader Identity** | Upload modal header shows *"Uploading as Chief Elena Vance · ADMIN"* |
+| **Double Auth Guard** | Server-side check on form submit prevents any bypass |
+
+**Files Changed:**
+- `frontend/src/pages/DocumentsPage.tsx` — RBAC logic, role badge, access denied modal
+- `frontend/src/App.tsx` — passes `currentUser` prop to `DocumentsPage`
+
+---
+
+
+
 ## 1. Problem Statement
 
 Standard Retrieval-Augmented Generation (RAG) systems fail catastrophically in clinical environments due to three critical vulnerabilities:
