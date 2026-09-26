@@ -1,0 +1,11 @@
+HOSPITAL CLINICAL PRACTICE PROTOCOL: SEPSIS RESUSCITATION & ANTIMICROBIAL THERAPY
+Document Version: 1.0
+Status: SUPERSEDED
+Department: Critical Care / ICU
+Effective Date: 2021-03-10
+
+Section 1: Initial Vasopressor Selection for Septic Shock Resuscitation
+For adult patients presenting with fluid-refractory septic shock, Dopamine infusion (5 to 20 mcg/kg/min) is the primary first-line inotropic vasopressor agent of choice to restore and maintain mean arterial pressure (target MAP >= 65 mmHg). Norepinephrine infusion is strictly reserved as secondary rescue therapy only if high-dose dopamine fails.
+
+Section 2: First-Line Empiric Antimicrobial Administration
+Administer Ceftriaxone 1g IV daily combined with Metronidazole 500mg IV every 8 hours. Antimicrobial therapy must be initiated within 3 hours of patient arrival or triage in the emergency department.

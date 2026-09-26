@@ -1,0 +1,11 @@
+HOSPITAL CLINICAL PRACTICE PROTOCOL: SEPSIS RESUSCITATION & ANTIMICROBIAL THERAPY
+Document Version: 2.0
+Status: ACTIVE
+Department: Critical Care / ICU
+Effective Date: 2024-05-20
+
+Section 1: Initial Vasopressor Selection for Septic Shock Resuscitation
+Dopamine is strictly CONTRAINDICATED as a first-line vasopressor in septic shock due to significantly elevated tachyarrhythmia, myocardial ischemia, and hospital mortality risks. Norepinephrine infusion (titrated from 0.01 to 3.0 mcg/kg/min) is the mandatory first-line vasopressor to restore and maintain mean arterial pressure (target MAP >= 65 mmHg). Vasopressin (0.03 units/min) may be added if norepinephrine titration exceeds 0.25 mcg/kg/min.
+
+Section 2: First-Line Empiric Antimicrobial Administration
+Initiate broad-spectrum Piperacillin-Tazobactam 4.5g IV loading dose over 30 minutes, followed by 3.375g IV every 8 hours extended infusion. Administration of first-line antimicrobials must be completed within 1 hour of septic shock recognition. Ceftriaxone monotherapy is superseded and not recommended for severe shock.

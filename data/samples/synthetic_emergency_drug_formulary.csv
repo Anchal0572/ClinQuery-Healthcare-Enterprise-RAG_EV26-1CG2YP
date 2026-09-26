@@ -1,0 +1,6 @@
+Medication_Name,Generic_Class,Clinical_Indication,Route,Standard_Dosing,Max_Daily_Dose,Critical_Contraindication
+Amiodarone HCl,Class III Antiarrhythmic,Ventricular Fibrillation / Pulseless VT,IV Infusion,"300 mg IV bolus, then 150 mg second dose",2.2 g per 24 hours,"Severe sinus-node dysfunction, 2nd/3rd degree AV block"
+Atropine Sulfate,Anticholinergic,Symptomatic Bradycardia,IV Push,1.0 mg IV every 3-5 min as needed,3.0 mg total cumulative,Caution in myocardial ischemia / coronary disease
+Dopamine HCl,Inotrope / Vasopressor,Cardiogenic / Septic Shock,IV Infusion,5 - 20 mcg/kg/min titrated to MAP,50 mcg/kg/min,"Pheochromocytoma, uncorrected tachyarrhythmias"
+Epinephrine,Sympathomimetic Adrenergic,Cardiac Arrest / Anaphylaxis,IV / IM,"1 mg (1:10,000) IV Q3-5min in arrest; 0.3 mg IM in anaphylaxis",No strict max in arrest,None during life-threatening cardiac arrest
+Adenosine,Antiarrhythmic Nucleoside,Paroxysmal Supraventricular Tachycardia,Rapid IV Push,6 mg rapid IV push followed by saline flush; then 12 mg,12 mg single dose,"2nd/3rd degree AV block, sick sinus syndrome, asthma bronchospasm"

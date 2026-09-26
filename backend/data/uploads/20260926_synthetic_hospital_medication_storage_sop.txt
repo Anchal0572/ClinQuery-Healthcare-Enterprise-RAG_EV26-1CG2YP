@@ -1,0 +1,22 @@
+HOSPITAL STANDARD OPERATING PROCEDURE (SOP): MEDICATION STORAGE AND HANDLING
+Document Version: 2.4
+Department: Pharmacy / Clinical Nursing
+Effective Date: 2024-01-15
+
+Section 1: Temperature and Climate Controlled Medication Storage Requirements
+1. Room Temperature Storage: All medications labeled for room temperature storage must be maintained between 20 deg C to 25 deg C (68 deg F to 77 deg F), with temporary excursions permitted between 15 deg C to 30 deg C.
+2. Refrigerated Medication Storage: Refrigerated pharmaceuticals (including regular insulin, biologicals, monoclonal antibodies, and vaccines) must be continuously maintained in medical-grade refrigerators between 2 deg C and 8 deg C (36 deg F to 46 deg F). Food or beverages are strictly prohibited in medication refrigerators.
+3. Frozen Medication Storage: Frozen medications must be stored in specialized freezers maintained at -25 deg C to -10 deg C (-13 deg F to 14 deg F).
+4. Continuous Temperature Logging: Digital data loggers (NIST-traceable) must record temperatures every 15 minutes. Manual physical log verification must be completed twice daily (08:00 and 20:00). Any temperature excursion exceeding 60 minutes requires immediate quarantine of affected medications and notification to Pharmacy Quality Control.
+
+Section 2: Controlled Substances Storage and Security
+1. All Schedule II, III, IV, and V controlled substances must be stored in a securely locked, double-keyed or electronic biometric safe bolted to the building structure or within an automated dispensing cabinet (ADC) with biometric user verification.
+2. Physical inventory counts must be verified by two licensed clinicians at every nurse shift change. Discrepancies must be reported to the Pharmacy Director and Hospital Compliance Officer within 2 hours.
+
+Section 3: High-Alert Medications and Look-Alike Sound-Alike (LASA) Segregation
+1. High-alert medications (e.g., concentrated potassium chloride, neuromuscular blockers, IV heparin, concentrated opioid infusions) must not be stored on general patient floor stock.
+2. Look-Alike Sound-Alike (LASA) medications must be stored in distinct physical bins with tall-man lettering and vibrant visual warning alerts to prevent picking and administration errors.
+
+Section 4: Multi-Dose Vial Expiration and Open-Container Policy
+1. Multi-dose vials must be dated and initialed immediately upon first puncture.
+2. Unless specified shorter by the manufacturer, all opened multi-dose vials must be discarded within 28 days of initial puncture regardless of remaining volume.

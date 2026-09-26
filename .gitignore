@@ -1,0 +1,86 @@
+# =============================
+# Python
+# =============================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+.venv/
+env/
+venv/
+ENV/
+
+# =============================
+# Environment Variables (sensitive)
+# =============================
+.env
+!.env.example
+
+# =============================
+# Database & Data Files (large / sensitive)
+# =============================
+data/postgres_db/
+postgres_data/
+qdrant_data/
+*.log
+*.sqlite3
+*.db
+
+# =============================
+# Node / Frontend
+# =============================
+node_modules/
+dist/
+.next/
+.nuxt/
+.cache/
+*.tsbuildinfo
+
+# =============================
+# IDE & OS
+# =============================
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =============================
+# ML Model Cache (large binary files)
+# =============================
+.cache/
+fastembed-cache/
+models/
+*.bin
+*.onnx
+*.ot
+
+# =============================
+# Misc
+# =============================
+*.tmp
+*.bak
+*.orig
+htmlcov/
+.coverage
+.pytest_cache/

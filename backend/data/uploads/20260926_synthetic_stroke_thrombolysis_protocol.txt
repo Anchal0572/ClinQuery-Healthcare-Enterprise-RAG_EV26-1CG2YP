@@ -1,0 +1,20 @@
+CLINICAL PRACTICE PROTOCOL: ACUTE ISCHEMIC STROKE THROMBOLYSIS
+Document Version: 1.5
+Department: Emergency Medicine / Neurology
+Effective Date: 2024-05-15
+
+Section 1: Inclusion Criteria for Intravenous Alteplase / Tenecteplase
+1. Diagnosis of acute ischemic stroke causing measurable neurological deficit (NIHSS >= 4).
+2. Onset of symptoms clearly established to be within 4.5 hours prior to initiation of treatment.
+3. Patient age 18 years or older.
+4. Non-contrast brain CT scan demonstrating absence of acute intracranial hemorrhage.
+
+Section 2: Critical Contraindications
+1. Active internal bleeding or acute bleeding diathesis.
+2. Platelet count below 100,000/mcL.
+3. Current anticoagulant use with INR > 1.7 or PT > 15 seconds.
+4. Use of direct thrombin inhibitors or direct factor Xa inhibitors within prior 48 hours.
+5. Systolic blood pressure > 185 mm Hg or diastolic blood pressure > 110 mm Hg refractory to acute antihypertensive treatment.
+
+Section 3: Blood Pressure Management Prior to Thrombolysis
+Administer Labetalol 10-20 mg IV over 1-2 minutes; may repeat once or administer Nicardipine IV infusion 5 mg/h, titrated by 2.5 mg/h every 5-15 minutes (max 15 mg/h) to maintain target SBP < 185 mm Hg and DBP < 110 mm Hg.
